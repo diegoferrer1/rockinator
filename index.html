@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rockinator - El Genio del Rock</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 65, 108, 0.6), 0 0 40px rgba(255, 65, 108, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(255, 65, 108, 0.8), 0 0 60px rgba(255, 65, 108, 0.5); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-2px); }
+            75% { transform: translateX(2px); }
+        }
+        
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(-45deg, #0a0a0a, #1a0a2e, #16213e, #0f3460);
+            background-size: 400% 400%;
+            animation: gradient-shift 15s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .font-creepster { font-family: 'Creepster', cursive; }
+        .font-orbitron { font-family: 'Orbitron', monospace; }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .neon-text {
+            color: #ff416c;
+            text-shadow: 
+                0 0 5px #ff416c,
+                0 0 10px #ff416c,
+                0 0 15px #ff416c,
+                0 0 20px #ff416c;
+        }
+        
+        .btn-rock {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            border: none;
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-rock:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-rock:hover:before {
+            left: 100%;
+        }
+        
+        .btn-rock:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 65, 108, 0.4);
+            animation: pulse-glow 1.5s infinite;
+        }
+        
+        .answer-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .answer-btn:hover {
+            transform: translateY(-5px) scale(1.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .shake-element:hover {
+            animation: shake 0.5s ease-in-out infinite;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, #ff416c, #ff4b2b);
+            box-shadow: 0 0 20px rgba(255, 65, 108, 0.5);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .band-image-container {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .band-image-container:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 65, 108, 0.2), rgba(255, 75, 43, 0.2));
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .band-image-container:hover:before {
+            opacity: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            background: #ff416c;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 8s linear infinite;
+        }
+        
+        .logo-glow {
+            filter: drop-shadow(0 0 30px rgba(255, 65, 108, 0.6));
+        }
+        
+        .question-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .question-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(255, 65, 108, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .neon-text {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="text-white">
+    <!-- Particles Background -->
+    <div id="particles" class="fixed inset-0 pointer-events-none z-0"></div>
+
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="min-h-screen flex items-center justify-center p-4 relative z-10">
+        <div class="glass-card rounded-3xl p-8 max-w-2xl w-full text-center">
+            <div class="mb-8">
+                <h1 class="font-creepster text-6xl md:text-8xl neon-text mb-4 floating-element">
+                    ROCKINATOR
+                </h1>
+                <p class="font-orbitron text-xl text-gray-300 tracking-widest">
+                    EL GENIO DEL ROCK
+                </p>
+            </div>
+            
+            <div class="question-card rounded-2xl p-6 mb-8 text-left">
+                <h2 class="font-orbitron text-2xl font-bold mb-6 text-center neon-text">
+                    ¿CÓMO JUGAR?
+                </h2>
+                <div class="space-y-4 text-lg">
+                    <p class="flex items-center">
+                        <span class="text-2xl mr-3">🎸</span>
+                        Piensa en una banda de rock famosa
+                    </p>
+                    <p class="flex items-center">
+                        <span class="text-2xl mr-3">🤖</span>
+                        Te haré una serie de preguntas estratégicas
+                    </p>
+                    <p class="flex items-center">
+                        <span class="text-2xl mr-3">⚡</span>
+                        Responde usando los botones de precisión
+                    </p>
+                    <p class="flex items-center">
+                        <span class="text-2xl mr-3">🔥</span>
+                        ¡Veamos si puedo leer tu mente rockera!
+                    </p>
+                </div>
+            </div>
+            
+            <button id="start-game-btn" class="btn-rock px-12 py-4 text-2xl rounded-full shake-element">
+                ¡ROCK & ROLL!
+            </button>
+        </div>
+    </div>
+
+    <!-- Game Container -->
+    <div id="game-container" class="min-h-screen flex items-center justify-center p-4 relative z-10 hidden">
+        <div class="glass-card rounded-3xl p-8 max-w-4xl w-full">
+            
+            <div id="game-area">
+                <!-- Progress Section -->
+                <div class="mb-8">
+                    <div class="flex justify-between items-center mb-4">
+                        <span id="question-counter" class="font-orbitron text-lg text-gray-300">
+                            PREGUNTA 1
+                        </span>
+                        <span class="font-orbitron text-lg text-gray-300">
+                            NIVEL ROCKSTAR
+                        </span>
+                    </div>
+                    <div class="w-full bg-gray-800 rounded-full h-4 overflow-hidden">
+                        <div id="progress-bar" class="progress-bar h-4 rounded-full" style="width: 5%"></div>
+                    </div>
+                </div>
+
+                <!-- Question Section -->
+                <div class="flex flex-col lg:flex-row items-center justify-center mb-10 gap-8">
+                    <div class="floating-element">
+                        <div class="w-32 h-32 lg:w-48 lg:h-48 bg-gradient-to-br from-pink-500 to-red-500 rounded-full flex items-center justify-center shadow-2xl">
+                            <span class="text-6xl lg:text-8xl">🎸</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-1 max-w-2xl">
+                        <div class="question-card rounded-2xl p-6">
+                            <p id="question-text" class="text-xl lg:text-3xl font-medium text-center leading-relaxed">
+                                Cargando preguntas...
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Answers Section -->
+                <div id="answers" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                    <button data-answer="1" class="answer-btn bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-white py-4 px-6 rounded-xl text-lg font-bold">
+                        SÍ
+                    </button>
+                    <button data-answer="0.8" class="answer-btn bg-gradient-to-r from-lime-600 to-green-700 hover:from-lime-500 hover:to-green-600 text-white py-4 px-6 rounded-xl text-lg font-bold">
+                        PROBABLE
+                    </button>
+                    <button data-answer="0.5" class="answer-btn bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-500 hover:to-gray-600 text-white py-4 px-6 rounded-xl text-lg font-bold">
+                        NO SÉ
+                    </button>
+                    <button data-answer="0.2" class="answer-btn bg-gradient-to-r from-orange-600 to-red-700 hover:from-orange-500 hover:to-red-600 text-white py-4 px-6 rounded-xl text-lg font-bold">
+                        DUDOSO
+                    </button>
+                    <button data-answer="0" class="answer-btn bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white py-4 px-6 rounded-xl text-lg font-bold">
+                        NO
+                    </button>
+                </div>
+            </div>
+
+            <!-- Result Area -->
+            <div id="result-area" class="text-center hidden">
+                <h2 class="font-orbitron text-3xl lg:text-4xl font-bold mb-8 neon-text">
+                    ¡CREO QUE ESTÁS PENSANDO EN...!
+                </h2>
+                
+                <div class="band-image-container mb-8 mx-auto max-w-md rounded-2xl overflow-hidden">
+                    <img id="band-image" src="" alt="Imagen de la banda" 
+                         class="w-full h-64 object-cover transition-transform duration-300 hover:scale-110" 
+                         onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Banda+No+Encontrada'">
+                </div>
+                
+                <h3 id="band-name" class="font-creepster text-4xl lg:text-6xl neon-text mb-8"></h3>
+                
+                <p class="text-xl lg:text-2xl mb-8 font-orbitron">¿ESTOY EN LO CORRECTO?</p>
+                
+                <div class="flex flex-col sm:flex-row justify-center gap-6">
+                    <button id="correct-btn" class="btn-rock px-8 py-4 text-xl rounded-full bg-gradient-to-r from-green-500 to-green-600">
+                        ¡SÍ, GENIAL!
+                    </button>
+                    <button id="wrong-btn" class="btn-rock px-8 py-4 text-xl rounded-full bg-gradient-to-r from-red-500 to-red-600">
+                        NO, INTÉNTALO DE NUEVO
+                    </button>
+                </div>
+            </div>
+
+            <!-- Final Message -->
+            <div id="final-message" class="text-center hidden">
+                <h2 id="final-text" class="font-orbitron text-3xl lg:text-5xl font-bold neon-text mb-10"></h2>
+                <button id="play-again-btn" class="btn-rock px-12 py-4 text-2xl rounded-full shake-element">
+                    ¡JUGAR DE NUEVO!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create animated particles
+        function createParticles() {
+            const particleContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 4 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 5) + 's';
+                particleContainer.appendChild(particle);
+            }
+        }
+
+        // --- DATABASE ---
+        const bands = [
+            { name: "Led Zeppelin", isBritish: 1, formedIn70s: 1, genreHardRock: 1, hasDeceasedMember: 1, isActive: 0, isMaleVocalist: 1, isPowerTrio: 0, hasFamousLogo: 1, usesKeyboard: 0.5, isMetal: 0, isPunk: 0, isAlternative: 0, isSpanish: 0 },
+            { name: "The Rolling Stones", isBritish: 1, formedIn70s: 0, genreHardRock: 1, hasDeceasedMember: 1, isActive: 1, isMaleVocalist: 1, isPowerTrio: 0, hasFamousLogo: 1, usesKeyboard: 0.5, isMetal: 0, isPunk: 0, isAlternative: 0, isSpanish: 0 },
+            { name: "AC/DC", isBritish: 0, formedIn70s: 1, genreHardRock: 1, hasDeceasedMember: 1, isActive: 1, isMaleVocalist: 1, isPowerTrio: 0, hasFamousLogo: 1, usesKeyboard: 0, isMetal: 0.5, isPunk: 0, isAlternative: 0, isSpanish: 0 },
+            { name: "Queen", isBritish: 1, formedIn70s: 1, genreHardRock: 1, hasDeceasedMember: 1, isActive: 1, isMaleVocalist: 1, isPowerTrio: 0, hasFamousLogo: 1, usesKeyboard: 1, isMetal: 0, isPunk: 0, isAlternative: 0, isSpanish: 0 },
+            { name: "Black Sabbath", isBritish: 1, formedIn70s: 0, genreHardRock: 1, hasDeceasedMember: 0, isActive: 0, isMaleVocalist: 1, isPowerTrio: 0, hasFamousLogo: 1, usesKeyboard: 0, isMetal: 1, isPunk: 0, isAlternative: 0, isSpanish: 0 },
+            { name: "The Who", isBritish: 1, formedIn70s: 0, genreHardRock: 1, hasDeceasedMember: 1, isActive: 0, isMaleVocalist: 1, isPowerTrio: 0, hasFamousLogo: 1, usesKeyboard: 0.5, isMetal: 0, isPunk: 0, isAlternative: 0, isSpanish: 0 },
+            { name: "Deep Purple", isBritish: 1, formedIn70s: 0, genreHardRock: 1, hasDeceasedMember: 0, isActive: 1, isMaleVocalist: 1, isPowerTrio: 0, hasFamousLogo: 0, usesKeyboard: 1, isMetal: 0.8, isPunk: 0, isAlternative: 0, isSpanish: 0 },
+            { name: "Guns N' Roses", isBritish: 0, formedIn70s: 0, genreHardRock: 1, hasDeceasedMember: 0, isActive: 1, isMaleVocalist: 1, isPowerTrio: 0, hasFamousLogo: 1, usesKeyboard: 0.5, isMetal: 0, isPunk: 0, isAlternative: 0, isSpanish: 0 },
+            { name: "KISS", isBritish: 0, formedIn70s: 1, genreHardRock: 1, hasDeceasedMember: 0, isActive: 1, isMaleVocalist: 1, isPowerTrio: 0, hasFamousLogo: 1, usesKeyboard: 0, isMetal: 0, isPunk: 0, isAlternative: 0, isSpanish: 0 },
+            { name: "Iron Maiden", isBritish: 1, formedIn70s: 1, genreHardRock: 0, hasDeceasedMember: 0, isActive: 1, isMaleVocalist: 1, isPowerTrio: 0, hasFamousLogo: 1, usesKeyboard: 0, isMetal: 1, isPunk: 0, isAlternative: 0, isSpanish: 0 },
+            { name: "Metallica", isBritish: 0, formedIn70s: 0, genreHardRock: 0, hasDeceasedMember: 1, isActive: 1, isMaleVocalist: 1, isPowerTrio: 0, hasFamousLogo: 1, usesKeyboard: 0, isMetal: 1, isPunk: 0, isAlternative: 0, isSpanish: 0 },
+            { name: "Ramones", isBritish: 0, formedIn70s: 1, genreHardRock: 0, hasDeceasedMember: 1, isActive: 0, isMaleVocalist: 1, isPowerTrio: 0, hasFamousLogo: 1, usesKeyboard: 0, isMetal: 0, isPunk: 1, isAlternative: 0, isSpanish: 0 },
+            { name: "The Clash", isBritish: 1, formedIn70s: 1, genreHardRock: 0, hasDeceasedMember: 1, isActive: 0, isMaleVocalist: 1, isPowerTrio: 0, hasFamousLogo: 1, usesKeyboard: 0, isMetal: 0, isPunk: 1, isAlternative: 0, isSpanish: 0 },
+            { name: "Green Day", isBritish: 0, formedIn70s: 0, genreHardRock: 0, hasDeceasedMember: 0, isActive: 1, isMaleVocalist: 1, isPowerTrio: 1, hasFamousLogo: 0, usesKeyboard: 0, isMetal: 0, isPunk: 1, isAlternative: 1, isSpanish: 0 },
+            { name: "Nirvana", isBritish: 0, formedIn70s: 0, genreHardRock: 0, hasDeceasedMember: 1, isActive: 0, isMaleVocalist: 1, isPowerTrio: 1, hasFamousLogo: 1, usesKeyboard: 0, isMetal: 0, isPunk: 0, isAlternative: 1, isSpanish: 0 },
+            { name: "Radiohead", isBritish: 1, formedIn70s: 0, genreHardRock: 0, hasDeceasedMember: 0, isActive: 1, isMaleVocalist: 1, isPowerTrio: 0, hasFamousLogo: 0, usesKeyboard: 1, isMetal: 0, isPunk: 0, isAlternative: 1, isSpanish: 0 },
+            { name: "Red Hot Chili Peppers", isBritish: 0, formedIn70s: 0, genreHardRock: 0, hasDeceasedMember: 0, isActive: 1, isMaleVocalist: 1, isPowerTrio: 0, hasFamousLogo: 1, usesKeyboard: 0, isMetal: 0, isPunk: 0, isAlternative: 1, isSpanish: 0 },
+            { name: "Foo Fighters", isBritish: 0, formedIn70s: 0, genreHardRock: 0, hasDeceasedMember: 1, isActive: 1, isMaleVocalist: 1, isPowerTrio: 0, hasFamousLogo: 1, usesKeyboard: 0, isMetal: 0, isPunk: 0, isAlternative: 1, isSpanish: 0 },
+            { name: "Pink Floyd", isBritish: 1, formedIn70s: 0, genreHardRock: 0, hasDeceasedMember: 1, isActive: 0, isMaleVocalist: 1, isPowerTrio: 0, hasFamousLogo: 1, usesKeyboard: 1, isMetal: 0, isPunk: 0, isAlternative: 0, isSpanish: 0 },
+            { name: "Rush", isBritish: 0, formedIn70s: 0, genreHardRock: 0, hasDeceasedMember: 1, isActive: 0, isMaleVocalist: 1, isPowerTrio: 1, hasFamousLogo: 1, usesKeyboard: 1, isMetal: 0, isPunk: 0, isAlternative: 0, isSpanish: 0 },
+            { name: "The Doors", isBritish: 0, formedIn70s: 0, genreHardRock: 0, hasDeceasedMember: 1, isActive: 0, isMaleVocalist: 1, isPowerTrio: 0, hasFamousLogo: 1, usesKeyboard: 1, isMetal: 0, isPunk: 0, isAlternative: 0, isSpanish: 0 },
+            { name: "Soda Stereo", isBritish: 0, formedIn70s: 0, genreHardRock: 0, hasDeceasedMember: 1, isActive: 0, isMaleVocalist: 1, isPowerTrio: 1, hasFamousLogo: 0, usesKeyboard: 0.5, isMetal: 0, isPunk: 0, isAlternative: 1, isSpanish: 1 },
+        ];
+
+        const questions = [
+            { id: "isBritish", text: "¿La banda es de origen británico?" },
+            { id: "formedIn70s", text: "¿La banda se formó en la década de 1970?" },
+            { id: "isMaleVocalist", text: "¿El/la vocalista principal es un hombre?" },
+            { id: "genreHardRock", text: "¿Su género principal es Hard Rock?" },
+            { id: "isMetal", text: "¿La banda es considerada Heavy Metal?" },
+            { id: "isPunk", text: "¿La banda toca Punk Rock?" },
+            { id: "isAlternative", text: "¿Se considera Rock Alternativo?" },
+            { id: "hasDeceasedMember", text: "¿Alguno de sus miembros más icónicos ha fallecido?" },
+            { id: "isActive", text: "¿La banda sigue activa hoy en día?" },
+            { id: "isPowerTrio", text: "¿La banda es conocida por ser un trío (3 miembros)?" },
+            { id: "hasFamousLogo", text: "¿La banda tiene un logo mundialmente famoso?" },
+            { id: "usesKeyboard", text: "¿El piano o los teclados son prominentes en su música?" },
+            { id: "isSpanish", text: "¿La banda canta principalmente en español?" }
+        ];
+
+        const bandImages = { 
+            "Led Zeppelin": "https://i.ibb.co/6rC680v/led-zeppelin.jpg", 
+            "The Rolling Stones": "https://i.ibb.co/RSCq8pB/rolling-stones.jpg", 
+            "AC/DC": "https://i.ibb.co/3cq2B2N/acdc.jpg", 
+            "Queen": "https://i.ibb.co/qNqVv99/queen.jpg", 
+            "Black Sabbath": "https://i.ibb.co/JqD7wzS/black-sabbath.jpg",
+            "The Who": "https://i.ibb.co/L5BwY3H/the-who.jpg",
+            "Deep Purple": "https://i.ibb.co/QcYnBPh/deep-purple.jpg",
+            "Guns N' Roses": "https://i.ibb.co/zX8kG8B/guns-n-roses.jpg", 
+            "KISS": "https://i.ibb.co/f8dGTPc/kiss.jpg", 
+            "Iron Maiden": "https://i.ibb.co/pwnV5qY/iron-maiden.jpg", 
+            "Metallica": "https://i.ibb.co/P9tPj4n/metallica.jpg", 
+            "Ramones": "https://i.ibb.co/72hXG3b/ramones.jpg", 
+            "The Clash": "https://i.ibb.co/6P6Xg4T/the-clash.jpg", 
+            "Green Day": "https://i.ibb.co/YyT31zV/green-day.jpg", 
+            "Nirvana": "https://i.ibb.co/z5pBf8D/nirvana.jpg", 
+            "Radiohead": "https://i.ibb.co/wBFx5r1/radiohead.jpg", 
+            "Red Hot Chili Peppers": "https://i.ibb.co/s51gT7q/rhcp.jpg", 
+            "Foo Fighters": "https://i.ibb.co/gPSmK1c/foo-fighters.jpg", 
+            "Pink Floyd": "https://i.ibb.co/dKSm9s8/pink-floyd.jpg", 
+            "Rush": "https://i.ibb.co/qD5P7yS/rush.jpg", 
+            "The Doors": "https://i.ibb.co/Xz9k56Y/the-doors.jpg", 
+            "Soda Stereo": "https://i.ibb.co/4p4y8B1/soda-stereo.jpg" 
+        };
+
+        // --- GAME LOGIC ---
+        let possibleBands = [];
+        let remainingQuestions = [];
+        let questionCount = 0;
+        const MAX_QUESTIONS = 15;
+
+        // DOM Elements
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const gameContainer = document.getElementById('game-container');
+        const gameArea = document.getElementById('game-area');
+        const resultArea = document.getElementById('result-area');
+        const finalMessage = document.getElementById('final-message');
+        const questionText = document.getElementById('question-text');
+        const questionCounter = document.getElementById('question-counter');
+        const progressBar = document.getElementById('progress-bar');
+        const startGameBtn = document.getElementById('start-game-btn');
+        const playAgainBtn = document.getElementById('play-again-btn');
+
+        function initGame() {
+            welcomeScreen.classList.remove('hidden');
+            gameContainer.classList.add('hidden');
+            createParticles();
+        }
+        
+        function startGame() {
+            welcomeScreen.classList.add('hidden');
+            gameContainer.classList.remove('hidden');
+            
+            possibleBands = bands.map(band => ({ ...band, score: 0 }));
+            remainingQuestions = [...questions];
+            questionCount = 0;
+
+            gameArea.style.display = 'block';
+            resultArea.style.display = 'none';
+            finalMessage.style.display = 'none';
+            
+            askQuestion();
+        }
+
+        function askQuestion() {
+            questionCount++;
+            const confidence = calculateConfidence();
+
+            if (questionCount > MAX_QUESTIONS || (possibleBands.length > 1 && confidence > 0.75) || possibleBands.length <= 1) {
+                makeGuess();
+                return;
+            }
+
+            questionCounter.innerText = `PREGUNTA ${questionCount}`;
+            progressBar.style.width = `${(questionCount / MAX_QUESTIONS) * 100}%`;
+
+            const question = getBestQuestion();
+            if (!question) {
+                makeGuess();
+                return;
+            }
+            questionText.innerText = question.text;
+            remainingQuestions = remainingQuestions.filter(q => q.id !== question.id);
+
+            document.querySelectorAll('.answer-btn').forEach(btn => {
+                btn.onclick = (e) => handleAnswer(question.id, parseFloat(e.target.dataset.answer));
+            });
+        }
+
+        function getBestQuestion() {
+            if (remainingQuestions.length === 0) return null;
+            const randomIndex = Math.floor(Math.random() * remainingQuestions.length);
+            return remainingQuestions[randomIndex];
+        }
+        
+        function calculateConfidence() {
+            if (possibleBands.length < 2) return 1;
+            const bestScore = possibleBands[0].score;
+            const secondBestScore = possibleBands[1].score;
+            const totalScore = possibleBands.reduce((sum, band) => sum + band.score, 1);
+            if (bestScore === secondBestScore) return 0;
+            return (bestScore - secondBestScore) / totalScore;
+        }
+
+        function handleAnswer(questionId, answerValue) {
+            possibleBands.forEach(band => {
+                const bandValue = band[questionId];
+                if (bandValue !== undefined) {
+                    const difference = Math.abs(answerValue - bandValue);
+                    const scoreUpdate = (1 - difference) * 2;
+                    band.score += scoreUpdate;
+                }
+            });
+
+            possibleBands.sort((a, b) => b.score - a.score);
+
+            const bestScore = possibleBands[0].score;
+            possibleBands = possibleBands.filter(band => band.score > bestScore * 0.4);
+
+            if (remainingQuestions.length > 0) {
+                askQuestion();
+            } else {
+                makeGuess();
+            }
+        }
+
+        function makeGuess() {
+            gameArea.style.display = 'none';
+            resultArea.style.display = 'block';
+
+            const guess = possibleBands.length > 0 ? possibleBands[0] : {name: "No pude adivinar", score: 0};
+            
+            document.getElementById('band-name').innerText = guess.name;
+            document.getElementById('band-image').src = bandImages[guess.name] || `https://placehold.co/600x400/141218/EAE6F0?text=${guess.name.replace(/\s/g, "+")}`;
+        }
+
+        function showFinalMessage(message) {
+            resultArea.style.display = 'none';
+            finalMessage.style.display = 'block';
+            document.getElementById('final-text').innerText = message;
+        }
+        
+        // Event Listeners
+        startGameBtn.addEventListener('click', startGame);
+        playAgainBtn.addEventListener('click', initGame);
+
+        document.getElementById('correct-btn').addEventListener('click', () => {
+            showFinalMessage("¡INCREÍBLE! ¡SOY UNA LEYENDA DEL ROCK!");
+        });
+
+        document.getElementById('wrong-btn').addEventListener('click', () => {
+            showFinalMessage("¡VAYA! ME HAS VENCIDO... ¡EL ROCK ES IMPREDECIBLE!");
+        });
+        
+        // Initialize the game
+        initGame();
+    </script>
+</body>
+</html>
